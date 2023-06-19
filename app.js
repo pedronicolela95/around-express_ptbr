@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const express = require("express");
 
 const { PORT = 3000 } = process.env;
@@ -16,9 +15,9 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res) => {
-  // eslint-disable-next-line no-console
-  console.error(err);
   res.status(500).send({ message: "Um erro ocorreu no servidor" });
+
+  throw new Error(err);
 });
 
 app.listen(PORT);

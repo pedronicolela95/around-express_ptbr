@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const router = require("express").Router();
 const fs = require("fs");
 const path = require("path");
@@ -10,8 +9,7 @@ try {
   const data = fs.readFileSync(filePath, { encoding: "utf8" });
   cards = JSON.parse(data);
 } catch (err) {
-  // eslint-disable-next-line no-console
-  console.log(err);
+  throw new Error(err);
 }
 
 router.get("/cards", (req, res) => {
