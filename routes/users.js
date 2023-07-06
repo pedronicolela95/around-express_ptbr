@@ -1,30 +1,21 @@
 const router = require("express").Router();
-const fs = require("fs");
-const path = require("path");
 
-const filePath = path.join(__dirname, "../data/users.json");
-let users = "";
+const {
+  getUsers,
+  getUserById,
+  postUsers,
+  updateUserProfile,
+  updateUserAvatar,
+} = require("../controllers/users");
 
-try {
-  const data = fs.readFileSync(filePath, { encoding: "utf8" });
-  users = JSON.parse(data);
-} catch (err) {
-  throw new Error(err);
-}
+router.get("/users", getUsers);
 
-router.get("/users", (req, res) => {
-  res.send(users);
-});
+router.get("/users/:_id", getUserById);
 
-router.get("/users/:_id", (req, res) => {
-  const user = users.find((item) => item._id === req.params._id);
+router.patch("/users/me", updateUserProfile);
 
-  if (!user) {
-    res.status(404).send({ error: "ID do usuário não encontrado" });
-    return;
-  }
+router.patch("/users/me/avatar", updateUserAvatar);
 
-  res.send(user);
-});
+router.post("/users", postUsers);
 
 module.exports = router;
